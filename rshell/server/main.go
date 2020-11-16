@@ -8,13 +8,14 @@ import (
 )
 
 func handleConnection(conn net.Conn) {
-	fmt.Println("incoming connection...")
+	fmt.Printf("incoming connection from %s\n", conn.RemoteAddr().String())
 	go io.Copy(conn, os.Stdin)
 	go io.Copy(os.Stdout, conn)
 }
 
 func rshell(home string) {
 	listener, _ := net.Listen("tcp4", home)
+	fmt.Printf("listening on: %s\n", home)
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -26,10 +27,5 @@ func rshell(home string) {
 }
 
 func main() {
-	args := os.Args[1:]
-	if len(args) == 0 {
-		fmt.Println("usage: rshell <home_addr>")
-		return
-	}
-	rshell(args[0])
+	rshell("0.0.0.0:1337")
 }
